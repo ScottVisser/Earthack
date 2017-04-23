@@ -1,0 +1,150 @@
+* {
+    margin: 0px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{ color: deepskyblue;
+    align-content: center;
+
+}
+
+body {
+    font-family: Helvetica Neue, Arial;
+        font-size: 16px; 
+     line-height: 23px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.35)),
+        url(DSkyR.jpg);
+    
+    background-attachment: fixed;
+}
+
+
+h1, h2, h3, h4, h5 {
+    color: rgb(77, 151, 253);
+    margin: 10px 0px 0px 10px;
+    font-size: 20px;
+    text-shadow: 2px 2px rgb(43, 88, 150);
+
+}
+h2, h4 { margin: 10px 0px 1.5vw 10px; }
+h1 {
+        text-align: center;
+        margin-top: 3vw;
+        margin-bottom: 2vw;
+        font-size: 30px;
+        
+    
+}
+h2{ 
+    text-align: center;
+    font-size: 25px;
+}
+h3{ 
+    float:left;
+    margin-left: 9vw;
+}
+h4{ margin-top: 8vw;
+    text-align: center;}
+
+p { font-size: 18px;
+    text-align: justify;
+    margin: 10px 0px 20px 10px;
+    color:aliceblue;
+    font-stretch: semi-expanded;
+    padding: 10px 5px 10px 5px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.46);
+    
+}
+
+
+
+
+
+
+.HeadInfo {
+    
+}
+.HeadInfo p {
+   margin: 0px 12vw 6vw 12vw;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+.BodyInfo{
+    
+}
+.BodyInfo p {
+    margin: 0px 12vw 10vw 12vw;
+    text-align: center;
+    vertical-align: middle;
+   
+    
+    
+}
+
+
+
+
+.Data {
+    
+}
+.Data p { 
+    text-align: center;
+    vertical-align: middle;
+}
+.clearFix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.Rect {
+    width:80vw;
+    height:45vw; 
+    border:1px
+    solid #fff;>
+}
+.map { 
+    float:left;
+    margin-left: 9vw;
+    height: 100%;
+    box-shadow: 1px 1px 10px black;
+}
+.MapDisp p{
+    color: black;
+    text-align: justify;
+}
+
+
+
+
+.Summary { 
+
+}
+.Summary p { 
+    margin: 0px 12vw 10vw 12vw;
+    text-align: center;
+    vertical-align: middle;
+    
+}
+
+
+
+
+.AuthorInfo {
+  border-top: 2px solid #464646;
+}
+.AuthorInfo p {
+    margin: 0px 10px 20px 10px;
+}
+
+
+
+.TableStuff { color:white;}

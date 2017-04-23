@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<head>
+    <title>Aerium Solutions</title>
+    <link rel="stylesheet" type="text/css" href="HStyle.css">
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+          width: 100%
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="HeadInfo">
+        <h1>
+            CO<sub>2</sub> in Dallas - an Aerium Solutions collaboration
+        </h1>
+    
+    </div>
+    
+    
+    <div class="BodyInfo">
+        <h2>
+            Our Idea:
+        </h2>
+        
+        <p>
+            In the spirit of Earth Day and EarthHack, our group, Aerium Solutions, has designed a tool that will allow for the better monitoring and comparing of CO<sub>2</sub> levels within the city of Dallas, Tx. In order to accomplish this task, we have outfitted an Arduino based quad-copter with a gas sensor (which in a perfect world would be more specialized than our college budgets can afford) that is capable of picking up on various gas levels in the atmosphere as it flies around the city. We then took the aquired data and plotted it against Google Maps so that we had an accurate display of where in the city was responsible for the most polution.
+            <br><br> The reason we gathered this information lies in the fact that we know exactly where it is coming from. Through continuous mapping and with more drones, one would be able to build a near perfect network that would be able to report data that the EPA can not, as their presence in Dallas is limited to two stationary sensors in the city. With our system not only being cheaper to expand, but also able to actively roam and find where the sources of these harmful gases actually are, we would be able to more accurately report the causes of these gasses, and ensure that appropriate actions are taken.
+        </p>
+    </div>
+    
+    <div class="Data">
+        <h3>
+            Data Map:
+            
+        </h3>
+
+        <div class="map"> 
+            <div class = "Rect">
+                <div id="map"></div>
+                
+    <script src="JSONTestConvert.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script>
+    
+          // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC4qnSJ9q3iF3dsqsrRTO_pY106PHr4Y8w",
+            authDomain: "earth-hack.firebaseapp.com",
+            databaseURL: "https://earth-hack.firebaseio.com",
+            projectId: "earth-hack",
+            storageBucket: "earth-hack.appspot.com",
+            messagingSenderId: "19808745076"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        var map;
+        var database = firebase.database();
+        
+        
+        //Innitializes the map
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: Lat[0], lng: Long[0]},
+                zoom: 17,
+                });
+        
+        //Creates the red and green marker icons
+        var circleRed ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'red',
+            fillOpacity: .5,
+            scale: 4.5,
+            strokeColor: 'black',
+            strokeWeight: 1};
+        var circleOrange ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'orange',
+            fillOpacity: .5,
+            scale: 4.5,
+            strokeColor: 'black',
+            strokeWeight: 1};
+        var circleYellow ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'yellow',
+            fillOpacity: .5,
+            scale: 4.5,
+            strokeColor: 'black',
+            strokeWeight: 1};
+        var circleGreen ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'green',
+            fillOpacity: .5,
+            scale: 4.5,
+            strokeColor: 'black',
+            strokeWeight: 1};
+    
+            
+       
+    //This for loop will take a count of our individual data points, and plot their info to them in an info window, PLEASE don't mess with, it's delicate
+    var numLocations = count1;   //Num locations is ALSO the size of all of the data arrays!
+    var count;
+    
+        
+        
+        for(count = 0; count < numLocations; count++)
+        {
+
+
+            var contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h1 id="firstHeading" class="firstHeading">Info</h1>'+
+                '<div class="MapDisp">'+
+                  '<p>LATITUDE: <strong>' + Lat[count] + '</strong><br>LONGITUDE: <strong>' + Long[count] + '</strong><br>METHANE: <strong>' + Meth[count]+'</strong><br>TEMPERATURE: <strong>' + Temp[count]+'</strong><br> HUMIDITY: <strong>' + Hum[count] + '</strong><br><\p><\div>';
+
+            if(Meth[count] > 400)
+            {
+           var marker = new google.maps.Marker({
+                position: {lat: Lat[count], lng: Long[count]},
+                icon: circleRed,
+                map: map,
+                title: 'GeoPoint' + (count+1)
+            });
+            attachMessage(marker, contentString);
+            }
+            else if(Meth[count] > 300)
+                {
+           var marker = new google.maps.Marker({
+                position: {lat: Lat[count], lng: Long[count]},
+                icon: circleOrange,
+                map: map,
+                title: 'GeoPoint' + (count+1)
+            });
+            attachMessage(marker, contentString);
+            }
+             else if(Meth[count] > 150)
+                {
+           var marker = new google.maps.Marker({
+                position: {lat: Lat[count], lng: Long[count]},
+                icon: circleYellow,
+                map: map,
+                title: 'GeoPoint' + (count+1)
+            });
+            attachMessage(marker, contentString);
+            }
+            else
+                {
+                    var marker = new google.maps.Marker({
+                position: {lat: Lat[count], lng: Long[count]},
+                icon: circleGreen,
+                map: map,
+                title: 'GeoPoint' + (count+1)
+            });
+            attachMessage(marker, contentString);
+                }
+
+        }
+    }
+    
+    // HEY! Leave this alone, It's delicate
+    function attachMessage(marker, contentString) {
+         var infowindow = new google.maps.InfoWindow({ content: contentString});
+                
+        marker.addListener('click', function() 
+        {   infowindow.open(marker.get('map'), marker);    });
+
+    }
+   
+                </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIUOVglns4ocELjLQsPgJEHtycA6sdt8g&callback=initMap"
+    async defer></script>
+            </div>
+        </div>
+
+        
+        <div class="clearFix"></div>
+        <script>//LINK INFO</script>  
+        
+        <div class="clearFix"></div>
+    </div>
+    
+    <div class="Summary">
+        <h4>
+            To Conclude:
+        </h4>
+           
+        <p>
+             Our goal at this event, was to provide a means for people to take the fight for a better Earth into their own hands. We are a team of mostly college freshmen, and we were able to do all of this in 36 hours, so if that is possible, what is to stop others who are truly dedicated from ensuring a better tomorrow for us all. While our current model did use a methane sensor instead of the CO<sub>2</sub> sensor that we had intended, we proved that it is possible to use an airborne drone to accurately and reliably pick up and report back levels of the gas present along the drones flight plan.
+            <br> Thinking to the future, we have already started looking up known gasses that are hazardous or indicate the presence of hazardous materials. The way we have built this project, and the way we represent our data was done modularly enough that all it would take would be getting the appropriate sensor and making a few minor design modifications, and we would be ready to send our drone out to collect data on whatever it is that we were looking for.
+            <br> 
+            <br> Our plan moving forward from here is to take this project and expand the number of drones that would be able to report in at one time, each of which having their own unique various flight paths that would stretch the reach of our data network, until the entire city was capable of being mapped. Once we have achieved this, we would then be capable of marking our product with the relevent software to cities as a way to ensure that local companies and business's truly are following EPA regulations and standards at all times. 
+        </p>
+        
+    </div>
+    
+    <div class="AuthorInfo">
+        <h5>
+            Creators:
+        </h5>
+        
+        <p>
+           <b>Logan Bayless</b>: UNT student, Computer Science major 
+            <br><b>Morgan Novak</b>: UNT student, Electrical Engineering major
+            <br><b>David Woodward</b>: UNT student, Electrical Engineering major
+            <br><b>Scott Visser</b>: UNT student, Computer Engineering major
+            <br> <b>Jeremiah Dickens</b>: UNT student, Computer Science major
+        </p>
+    </div>
+    
+</body>
